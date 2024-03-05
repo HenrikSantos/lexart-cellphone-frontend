@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { FormEvent, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
-interface LoginResponse {
+interface ILoginResponse {
     id: number;
     email: string;
     token: string; 
@@ -13,20 +13,26 @@ interface LoginResponse {
 export default function LoginForm(){
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    const [message, setMessage] = useState<string>("");
     const router = useRouter();
 
-    const handleLogin = async(e: React.FormEvent<HTMLFormElement>) => {
+    const handleLogin = async(e: FormEvent) => {
         e.preventDefault();
+
+        if (password.length < 3) {
+            setMessage("A senha deve ter no mínimo 3 caracteres");
+
+            return;
+        }
+
         try {
-            const response = await axios.post<LoginResponse>(
+            const response = await axios.post<ILoginResponse>(
                 "http://localhost:4000/api/login",
                 {
                     email,
                     password,
                 }
             );
-            
-            console.log(response);
 
             if ("token" in response.data) {
                 localStorage.setItem("lexartCellphoneLogin", response.data.token);
@@ -56,6 +62,7 @@ export default function LoginForm(){
                 />
                 <button type="submit">Entrar</button>
             </form>
+            {message && <p>{message}</p>}
         </div>
     );
 }
