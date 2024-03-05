@@ -19,13 +19,13 @@ export default function Register() {
         e.preventDefault();
 
         if (password !== confirmPassword) {
-            setMessage("As senhas não correspondem");
+            setMessage("As senhas não correspondem.");
 
             return;
         }
 
         if (password.length < 3) {
-            setMessage("A senha deve ter no mínimo 3 caracteres");
+            setMessage("A senha deve ter no mínimo 3 caracteres.");
 
             return;
         }

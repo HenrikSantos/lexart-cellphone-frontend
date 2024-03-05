@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FormEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
@@ -20,7 +20,7 @@ export default function LoginForm(){
         e.preventDefault();
 
         if (password.length < 3) {
-            setMessage("A senha deve ter no mínimo 3 caracteres");
+            setMessage("A senha deve ter no mínimo 3 caracteres.");
 
             return;
         }
@@ -52,13 +52,13 @@ export default function LoginForm(){
                     type="email"
                     placeholder="Email"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
                 />
                 <input
                     type="password"
                     placeholder="Senha"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
                 />
                 <button type="submit">Entrar</button>
             </form>
