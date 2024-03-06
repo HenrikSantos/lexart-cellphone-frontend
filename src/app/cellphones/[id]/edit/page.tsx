@@ -1,13 +1,12 @@
 "use client";
 
+import EditProductForm from "@/components/EditCellphoneForm/EditProductForm";
 import React, { useCallback, useEffect, useState } from "react";
-import "./Edit.css";
-import { useStore } from "zustand";
 import useCellphoneStore, { Cellphone } from "@/global/store";
-import EditProductForm from "@/components/EditProductForm/EditProductForm";
-import getCellphones from "@/utils/getCellphones";
-import getToken from "@/utils/getToken";
+import getCellphones from "@/api/getCellphones";
 import { useRouter } from "next/navigation";
+import getToken from "@/utils/getToken";
+import { useStore } from "zustand";
 
 interface EditPropTypes {
     params: {
