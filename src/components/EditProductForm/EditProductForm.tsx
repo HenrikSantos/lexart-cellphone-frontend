@@ -8,7 +8,7 @@ export default function EditProductForm({ cellphone }: { cellphone: Cellphone })
     const [cellphoneForm, setCellphoneForm] = useState<Cellphone>(cellphone);
     const [newOption, setNewOption] = useState<Omit<Option, "id">>({ price: 0, color: "", CellphoneId: cellphone.id });
 
-    const handleEditCellphone = async (e: FormEvent) => {
+    const handleEditCellphone = async(e: FormEvent) => {
         e.preventDefault();
         
         try {
