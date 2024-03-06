@@ -1,68 +1,56 @@
 "use client";
 
-import axios from "axios";
-import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-
-interface Option {
-  id: number;
-  price: number;
-  color: string;
-  CellphoneId: number;
-}
-
-interface Cellphone {
-  id: number;
-  name: string;
-  brand: string;
-  model: string;
-  options: Option[];
-}
+import { useStore } from "zustand";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import useCellphoneStore, { Cellphone } from "@/global/store";
+import getCellphones from "@/utils/getCellphones";
+import getToken from "@/utils/getToken";
 
 export default function Cellphones() {
-    const [cellphones, setCellphones] = useState<Cellphone[]>([]);
     const router = useRouter();
+    const { setStoreCellphones } = useStore(useCellphoneStore);
+    const [cellphones, setCellphones] = useState<Cellphone[]>([]);
 
     useEffect(() => {
-        const token = localStorage.getItem("lexartCellphoneLogin");
+        const handleGetCellphones = async() => {
+            const token = getToken(); 
+            if (!token) {
+                router.push("/");
 
-        if (!token) {
-            router.push("/");
+                return;
+            }
+            const data = await getCellphones(token);
+            setStoreCellphones(data);
+            setCellphones(data);
+        };
 
-            return;
-        }
-
-        axios.get<Cellphone[]>("http://localhost:4000/api/cellphone", {
-            headers: {
-                Authorization: `${token}`,
-            },
-        })
-            .then((response) => {
-                setCellphones(response.data);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }, []);
+        handleGetCellphones();
+    }, [router, setStoreCellphones]);
 
     if (!cellphones.length) {
         return <p>Carregando...</p>;
     }
 
     return (
-        <div>
+        <main className="flex">
             {cellphones.map((cellphone) => 
-                <div key={cellphone.id}>
+                <div className="m-2 border-2 p-2" key={cellphone.id}>
                     <h2>{cellphone.name}</h2>
                     <p>{cellphone.brand} - {cellphone.model}</p>
+                    <p>Cores:</p>
                     {cellphone.options.map((option) => 
                         <div key={option.id}>
                             <p>Preço: {option.price}</p>
                             <p>Cor: {option.color}</p>
                         </div>
                     )}
+                    <Link href={`/cellphones/${cellphone.id}/edit`}>
+                        <button className="rounded-sm border-2 px-2 hover:bg-slate-50">Editar</button>
+                    </Link>
                 </div>
             )}
-        </div>
+        </main>
     );
 }
