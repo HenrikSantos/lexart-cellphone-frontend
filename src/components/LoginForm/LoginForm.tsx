@@ -1,14 +1,8 @@
 "use client";
 
 import React, { ChangeEvent, FormEvent, useState } from "react";
-import axios from "axios";
 import { useRouter } from "next/navigation";
-
-interface ILoginResponse {
-    id: number;
-    email: string;
-    token: string; 
-}
+import loginUser from "@/api/loginUser";
 
 export default function LoginForm(){
     const [email, setEmail] = useState<string>("");
@@ -25,22 +19,18 @@ export default function LoginForm(){
             return;
         }
 
-        try {
-            const response = await axios.post<ILoginResponse>(
-                "http://localhost:4000/api/login",
-                {
-                    email,
-                    password,
-                }
-            );
+        const response = await loginUser(email, password);
+        
+        if (!response) {
+            window.alert("Erro ao logar, verifique o status do servidor");
 
-            if ("token" in response.data) {
-                localStorage.setItem("lexartCellphoneLogin", response.data.token);
-                
-                router.push("/cellphones");
-            }
-        } catch (error) {
-            console.error("Erro ao fazer login:", error);
+            return;
+        }
+
+        if ("token" in response) {
+            localStorage.setItem("lexartCellphoneLogin", response.token);
+            
+            router.push("/cellphones");
         }
     };
 
