@@ -9,10 +9,13 @@ export default function CellphoneCard({ cellphone, handleGetCellphones }: {cellp
     return (
         <div className="relative rounded-md border-2 p-2 pb-10" key={cellphone.id}>
             <h2 className="text-2xl font-bold underline">{cellphone.name}</h2>
+
             <p>
                 {cellphone.brand} - {cellphone.model}
             </p>
+
             <p>Opções:</p>
+
             <div className="ml-1">
                 {cellphone.options.map((option) => 
                     <div className="" key={option.id}>
@@ -21,15 +24,17 @@ export default function CellphoneCard({ cellphone, handleGetCellphones }: {cellp
                     </div>
                 )}
             </div>
+
             <section className="absolute bottom-1 left-1 flex gap-2">
                 <Link href={`/cellphones/${cellphone.id}/edit`}>
                     <button className="rounded-sm border px-2 hover:bg-yellow-400 hover:text-black">Editar</button>
                 </Link>
+
                 <button className="rounded-sm border px-2 hover:bg-red-500" type="button" onClick={() => {
                     deleteCellphone(cellphone.id);
                     handleGetCellphones();
                 }}>
-                Deletar
+                    Deletar
                 </button>
             </section>
         </div>

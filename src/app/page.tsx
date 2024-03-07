@@ -38,6 +38,7 @@ export default function Login() {
             <Image className="my-7" src={lexWhite} alt="Lexart logo" width={200} height={200}/>
 
             <h2 className="my-2 text-xl">Login</h2>
+
             <form className="flex flex-wrap gap-3" onSubmit={handleLogin}>
                 <input
                     className="w-full p-2"
@@ -46,6 +47,7 @@ export default function Login() {
                     value={email}
                     onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
                 />
+
                 <input
                     className="w-full p-2"
                     type="password"
@@ -53,10 +55,14 @@ export default function Login() {
                     value={password}
                     onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
                 />
+                
                 <button className="gradient-border w-full border p-2 hover:bg-white/20" type="submit">Entrar</button>
             </form>
+
             <br />
+
             <Link className="mx-auto w-full self-center border p-2 text-center hover:cursor-pointer hover:bg-white/20" href={"/register"}>Criar conta</Link>
+
             {message && <p className="my-3">{message}</p>}
         </main>
     );

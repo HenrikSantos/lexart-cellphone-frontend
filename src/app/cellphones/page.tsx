@@ -36,6 +36,9 @@ export default function ShowCellphones(){
             return;
         }
         const data = await getCellphones(token);
+
+        if (!data) return;
+
         setStoreCellphones(data);
         setCellphones(data);
     }, [router, setStoreCellphones]);
@@ -113,12 +116,14 @@ export default function ShowCellphones(){
                         onChange={(e) => setFilterOptions({ ...filterOptions, query: e.target.value })}
                     />
                 </div>
+
                 <div className="my-3 grid grid-cols-4 gap-2 text-sm">
                     <button className="rounded-md border p-1 hover:bg-white/10" onClick={() => handleSortChange("name-asc")}>Nome (A-Z)</button>
                     <button className="rounded-md border p-1 hover:bg-white/10" onClick={() => handleSortChange("name-desc")}>Nome (Z-A)</button>
                     <button className="rounded-md border p-1 hover:bg-white/10" onClick={() => handleSortChange("price-asc")}>Preço Crescente</button>
                     <button className="rounded-md border p-1 hover:bg-white/10" onClick={() => handleSortChange("price-desc")}>Preço Decrescente</button>
                 </div>
+
                 <section className="flex gap-2">
                     <select
                         value={filterOptions.selectedColor || ""}
@@ -129,6 +134,7 @@ export default function ShowCellphones(){
                             <option key={color} value={color}>{color}</option>
                         )}
                     </select>
+
                     <select
                         value={filterOptions.selectedBrand || ""}
                         onChange={(e) => setFilterOptions({ ...filterOptions, selectedBrand: e.target.value || undefined })}
@@ -140,6 +146,7 @@ export default function ShowCellphones(){
                     </select>
                 </section>
             </section>
+            
             <section className="justify-between gap-3 space-y-3 md:grid md:w-7/12 md:grid-cols-3 md:space-y-0">
                 {cellphones.map((cellphone) =>
                     <CellphoneCard key={cellphone.id} cellphone={cellphone} handleGetCellphones={handleGetCellphones} />

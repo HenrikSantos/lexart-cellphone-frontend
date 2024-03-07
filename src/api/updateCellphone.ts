@@ -31,6 +31,6 @@ export default async function updateCellphone(cellphone: Cellphone) {
         return true;
 
     } catch (error) {
-        console.error("Error editing cellphone:", error);
+        console.error(`Erro ao atualizar o celular, verifique o status da API, error: ${error}`);
     } 
 }

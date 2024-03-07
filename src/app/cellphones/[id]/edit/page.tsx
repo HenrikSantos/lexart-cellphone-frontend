@@ -30,6 +30,9 @@ export default  function Edit({ params: { id } }: IEditPropTypes) {
         }
 
         const data = await getCellphones(token);
+
+        if (!data) return;
+        
         setStoreCellphones(data);
     }, [router, setStoreCellphones]);
 

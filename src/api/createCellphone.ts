@@ -21,7 +21,7 @@ export default async function createCellphone(cellphone: ICellphoneCreate) {
             !cellphone.brand || 
             !cellphone.model
         ) {
-            window.alert("Alguma opção está inválida");
+            window.alert("Alguma opção está inválida, todos os campos devem ser preenchidos!");
 
             return;
         }
@@ -40,6 +40,6 @@ export default async function createCellphone(cellphone: ICellphoneCreate) {
 
         return true;
     } catch (error) {
-        console.error("Error creating cellphone:", error);
+        console.error("Erro ao criar celular:", error);
     }
 }

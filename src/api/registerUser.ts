@@ -10,6 +10,6 @@ export default async function registerUser(email: string, password: string) {
 
         return response.data;
     } catch (error) {
-        window.alert("Erro no registro");
+        window.alert("Erro no registro, verifique o status da API.");
     }
 }

@@ -9,6 +9,6 @@ export async function deleteCellphone(id: number) {
             }
         });
     } catch (error) {
-        console.error("Error editing cellphone:", error);
+        window.alert(`Erro ao editar o celular: ${error}`);
     }
 }
