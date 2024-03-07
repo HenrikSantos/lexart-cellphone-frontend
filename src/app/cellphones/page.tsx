@@ -42,7 +42,6 @@ export default function ShowCellphones(){
 
     return (
         <main className="mx-auto w-full items-start px-4 md:flex md:w-8/12 md:space-x-3 md:px-0">
-            
             <CellphoneFilters cellphones={cellphones} setCellphones={setCellphones} />
             <section className="justify-between gap-3 space-y-3 md:grid md:w-7/12 md:grid-cols-3 md:space-y-0">
                 {cellphones.map((cellphone) =>
