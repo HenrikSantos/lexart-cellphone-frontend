@@ -1,6 +1,6 @@
 "use client";
 
-import EditProductForm from "@/components/EditCellphoneForm/EditProductForm";
+import EditCellphoneForm from "@/components/EditCellphoneForm/EditCellphoneForm";
 import React, { useCallback, useEffect, useState } from "react";
 import useCellphoneStore, { Cellphone } from "@/global/store";
 import getCellphones from "@/api/getCellphones";
@@ -8,13 +8,13 @@ import { useRouter } from "next/navigation";
 import getToken from "@/utils/getToken";
 import { useStore } from "zustand";
 
-interface EditPropTypes {
+interface IEditPropTypes {
     params: {
         id: number
     }
 }
 
-export default  function Edit({ params: { id } }: EditPropTypes) {
+export default  function Edit({ params: { id } }: IEditPropTypes) {
     const [cellphone, setCellphone] = useState<Cellphone>();
     const { storeCellphones, setStoreCellphones } = useStore(useCellphoneStore);
 
@@ -43,7 +43,7 @@ export default  function Edit({ params: { id } }: EditPropTypes) {
     return (
         <div>
             { cellphone && 
-                <EditProductForm cellphone={cellphone} />
+                <EditCellphoneForm cellphone={cellphone} />
             }
         </div>
     );
