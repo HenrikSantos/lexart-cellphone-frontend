@@ -16,6 +16,7 @@ export interface ICellphoneCreate {
 export default async function createCellphone(cellphone: ICellphoneCreate) {
     try {
         if (
+            cellphone.options.length === 0 ||
             cellphone.options.some(el => !el.color || !el.price) || 
             !cellphone.name || 
             !cellphone.brand || 

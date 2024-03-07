@@ -5,6 +5,7 @@ import axios from "axios";
 export default async function updateCellphone(cellphone: Cellphone) {
     try {
         if (
+            cellphone.options.length === 0 ||
             cellphone.options.some(el => !el.color || !el.price) || 
             !cellphone.name || 
             !cellphone.brand || 
