@@ -6,7 +6,7 @@ interface IRegisterResponse {
 
 export default async function registerUser(email: string, password: string) {
     try {
-        const response = await axios.post<IRegisterResponse>("http://localhost:4000/api/user", { email, password });
+        const response = await axios.post<IRegisterResponse>("https://lexart-cellphone-backend.vercel.app/api/user", { email, password });
 
         return response.data;
     } catch (error) {

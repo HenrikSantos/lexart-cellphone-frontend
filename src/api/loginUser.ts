@@ -9,7 +9,7 @@ interface ILoginResponse {
 export default async function loginUser(email: string, password: string) {
     try {
         const response = await axios.post<ILoginResponse>(
-            "http://localhost:4000/api/login",
+            "https://lexart-cellphone-backend.vercel.app/api/login",
             {
                 email,
                 password,

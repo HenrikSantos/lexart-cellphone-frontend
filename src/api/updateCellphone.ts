@@ -15,7 +15,7 @@ export default async function updateCellphone(cellphone: Cellphone) {
             return;
         }
 
-        await axios.put(`http://localhost:4000/api/cellphone/${cellphone.id}`, {
+        await axios.put(`https://lexart-cellphone-backend.vercel.app/api/cellphone/${cellphone.id}`, {
             id: cellphone.id,
             name: cellphone.name,
             brand: cellphone.brand,

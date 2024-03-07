@@ -3,7 +3,7 @@ import axios from "axios";
 
 export async function deleteCellphone(id: number) {
     try {
-        await axios.delete(`http://localhost:4000/api/cellphone/${id}`, {
+        await axios.delete(`https://lexart-cellphone-backend.vercel.app/api/cellphone/${id}`, {
             headers: {
                 Authorization: getToken()
             }

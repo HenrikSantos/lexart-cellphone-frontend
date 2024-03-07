@@ -26,7 +26,7 @@ export default async function createCellphone(cellphone: ICellphoneCreate) {
             return;
         }
 
-        await axios.post("http://localhost:4000/api/cellphone/", [{
+        await axios.post("https://lexart-cellphone-backend.vercel.app/api/cellphone/", [{
             name: cellphone.name,
             brand: cellphone.brand,
             model: cellphone.model,
