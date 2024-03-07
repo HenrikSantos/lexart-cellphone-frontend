@@ -9,7 +9,7 @@ import getCellphones from "@/api/getCellphones";
 import getToken from "@/utils/getToken";
 import { deleteCellphone } from "@/api/deleteCellphone";
 
-export default function Cellphones() {
+export default function CreateCellphones() {
     const router = useRouter();
     const { storeCellphones, setStoreCellphones } = useStore(useCellphoneStore);
     const [cellphones, setCellphones] = useState<Cellphone[]>([]);

@@ -15,6 +15,17 @@ export interface ICellphoneCreate {
 
 export default async function createCellphone(cellphone: ICellphoneCreate) {
     try {
+        if (
+            cellphone.options.some(el => !el.color || !el.price) || 
+            !cellphone.name || 
+            !cellphone.brand || 
+            !cellphone.model
+        ) {
+            window.alert("Alguma opção está inválida");
+
+            return;
+        }
+
         await axios.post("http://localhost:4000/api/cellphone/", [{
             name: cellphone.name,
             brand: cellphone.brand,
@@ -26,6 +37,8 @@ export default async function createCellphone(cellphone: ICellphoneCreate) {
                 Authorization: getToken()
             }
         });
+
+        return true;
     } catch (error) {
         console.error("Error creating cellphone:", error);
     }
