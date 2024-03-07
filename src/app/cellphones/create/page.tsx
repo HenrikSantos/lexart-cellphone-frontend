@@ -49,7 +49,7 @@ export default function Create() {
                 const result = await createCellphone(cellphoneForm);
                 if(result) setMessage("Celular criado com sucesso!");
             }}>
-            <h2>Criar novo produto:</h2>
+            <h2 className="text-xl">Criar novo produto:</h2>
             <label className="w-full" htmlFor="nameForm">
                 Nome:
                 <input

@@ -48,7 +48,7 @@ export default function EditCellphoneForm({ cellphone }: { cellphone: Cellphone 
                 if(result) setMessage("Celular atualizado com sucesso!");
             }}
         >
-            <h2>Editar Produto</h2>
+            <h2 className="text-xl">Editar Produto</h2>
             <label className="w-full" htmlFor="nameForm">
                 Nome:
                 <input
