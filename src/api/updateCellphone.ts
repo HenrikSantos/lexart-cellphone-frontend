@@ -4,7 +4,12 @@ import axios from "axios";
 
 export default async function updateCellphone(cellphone: Cellphone) {
     try {
-        if (cellphone.options.some(el => !el.color || !el.price)) {
+        if (
+            cellphone.options.some(el => !el.color || !el.price) || 
+            !cellphone.name || 
+            !cellphone.brand || 
+            !cellphone.model
+        ) {
             window.alert("Alguma opção está inválida");
 
             return;
