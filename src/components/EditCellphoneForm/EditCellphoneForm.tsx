@@ -45,11 +45,11 @@ export default function EditCellphoneForm({ cellphone }: { cellphone: Cellphone 
                 e.preventDefault();
 
                 const result = await updateCellphone(cellphoneForm);
-                if(result) setMessage("Usuário atualizado com sucesso!");
+                if(result) setMessage("Celular atualizado com sucesso!");
             }}
         >
             <h2>Editar Produto</h2>
-            <label className="w-full " htmlFor="nameForm">
+            <label className="w-full" htmlFor="nameForm">
                 Nome:
                 <input
                     className="w-full px-1"
@@ -87,7 +87,7 @@ export default function EditCellphoneForm({ cellphone }: { cellphone: Cellphone 
                 {cellphoneForm.options.map((option, index) =>
                     <div className="my-3 rounded-md border  px-3 py-2" key={index}>
                         <label htmlFor={`color${index}`}>
-                            Cor
+                            Cor:
                             <input
                                 className="w-full px-1"
                                 type="text"
@@ -98,7 +98,7 @@ export default function EditCellphoneForm({ cellphone }: { cellphone: Cellphone 
                             />
                         </label>
                         <label htmlFor={`price${index}`}>
-                            Preço
+                            Preço:
                             <input
                                 className="w-full px-1"
                                 type="number"
@@ -118,19 +118,28 @@ export default function EditCellphoneForm({ cellphone }: { cellphone: Cellphone 
                 )}
             </section>
             <section className="flex w-full flex-wrap gap-3 rounded-md border p-3">
-                <p className="underline">Adicionar opção:</p>
-                <label className="w-full" htmlFor="newPrice">
-                    Price:
-                    <input
-                        className="w-full px-1" type="number" id="newPrice" value={newOption.price} onChange={(e) => setNewOption({ ...newOption, price: +e.target.value })}/>
-                </label>
+                <p className="underline">Adicionar nova opção:</p>
                 <label className="w-full" htmlFor="newColor">
-                    Color:
+                    Cor:
                     <input
                         placeholder="Digite a cor"
                         className="w-full px-1" type="text" id="newColor" value={newOption.color} onChange ={(e) => setNewOption({ ...newOption, color: e.target.value })}/>
                 </label>
-                <button disabled={newOption.color && newOption.price > 0 ? false : true} className="my-2 w-full rounded-md border py-2 hover:bg-yellow-400 hover:text-black disabled:opacity-20" type="button" onClick={handleAddNewOption}>Add</button>
+                <label className="w-full" htmlFor="newPrice">
+                    Preço:
+                    <input
+                        className="w-full px-1" type="number" id="newPrice" value={newOption.price} onChange={(e) => setNewOption({ ...newOption, price: +e.target.value })}/>
+                </label>
+                <button 
+                    className="my-2 w-full rounded-md border py-2 hover:bg-yellow-400 hover:text-black disabled:opacity-20" type="button" 
+                    disabled={
+                        (newOption.color ? false : true) || 
+                    (newOption.price > 0 ? false : true)
+                    } 
+                    onClick={handleAddNewOption}
+                >
+                    Adicionar
+                </button>
             </section>
             <button className="gradient-border my-5 w-full rounded-md border py-2 hover:bg-white/20" type="submit">Salvar</button>
             {message && <p>{message}</p>}
