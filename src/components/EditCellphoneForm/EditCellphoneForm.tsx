@@ -5,8 +5,11 @@ import updateCellphone from "@/api/updateCellphone";
 export default function EditCellphoneForm({ cellphone }: { cellphone: Cellphone }) {
     const [cellphoneForm, setCellphoneForm] = useState<Cellphone>(cellphone);
     const [newOption, setNewOption] = useState<Omit<Option, "id">>({ price: 0, color: "", CellphoneId: cellphone.id });
+    const [message, setMessage] = useState<string>("");
 
     const handleOptionChange = (indexToChange: number, value: number | string, type: string) => {
+        if (type === "price" && 0 > +value) return;
+
         setCellphoneForm(prevCellphone => ({
             ...prevCellphone,
             options: prevCellphone.options.map((option, index) =>   
@@ -18,6 +21,8 @@ export default function EditCellphoneForm({ cellphone }: { cellphone: Cellphone 
     const handleAddNewOption = (e: FormEvent) => {
         e.preventDefault();
         
+        if (!newOption.color || newOption.price <= 0) return;
+
         setCellphoneForm((prevCellphone) => ({
             ...prevCellphone,
             options: [...prevCellphone.options, newOption]
@@ -35,14 +40,16 @@ export default function EditCellphoneForm({ cellphone }: { cellphone: Cellphone 
 
     return (
         <form 
-            className="mx-auto flex flex-wrap gap-3 md:w-4/12"
-            onSubmit={(e) => {
+            className="mx-auto mb-10 flex flex-wrap gap-3 px-3 md:w-4/12"
+            onSubmit={async(e) => {
                 e.preventDefault();
-                updateCellphone(cellphoneForm);
+
+                const result = await updateCellphone(cellphoneForm);
+                if(result) setMessage("Usuário atualizado com sucesso!");
             }}
         >
-            
-            <label className="w-full px-3" htmlFor="nameForm">
+            <h2>Editar Produto</h2>
+            <label className="w-full " htmlFor="nameForm">
                 Nome:
                 <input
                     className="w-full px-1"
@@ -53,7 +60,7 @@ export default function EditCellphoneForm({ cellphone }: { cellphone: Cellphone 
                     onChange={(e) => setCellphoneForm({ ...cellphoneForm, name: e.target.value })}
                 />
             </label>
-            <label className="w-full px-3" htmlFor="brandForm">
+            <label className="w-full " htmlFor="brandForm">
                 Marca:
                 <input
                     className="w-full px-1"
@@ -64,7 +71,7 @@ export default function EditCellphoneForm({ cellphone }: { cellphone: Cellphone 
                     onChange={(e) => setCellphoneForm({ ...cellphoneForm, brand: e.target.value })}
                 />
             </label>
-            <label className="w-full px-3" htmlFor="modelForm">
+            <label className="w-full " htmlFor="modelForm">
                 Modelo:
                 <input
                     className="w-full px-1"
@@ -75,27 +82,32 @@ export default function EditCellphoneForm({ cellphone }: { cellphone: Cellphone 
                     onChange={(e) => setCellphoneForm({ ...cellphoneForm, model: e.target.value })}
                 />
             </label>
-            <label className="w-full px-3">
+            <section className="w-full">
                 Opções:
                 {cellphoneForm.options.map((option, index) =>
-                    <div className="my-3 rounded-md border px-3 py-2" key={index}>
-                        <p>Cor</p>
-                        <input
-                            className="w-full px-1"
-                            type="text"
-                            name={`option-${index}-color`}
-                            value={option.color}
-                            onChange={(e) => handleOptionChange(index, e.target.value, "color")}
-                        />
-                        <p>Preço:</p>
-                        <input
-                            className="w-full px-1"
-                            type="number"
-                            id={`price${index}`}
-                            name={`option-${index}-price`}
-                            value={option.price}
-                            onChange={(e) => handleOptionChange(index, +e.target.value, "price")}
-                        />
+                    <div className="my-3 rounded-md border  px-3 py-2" key={index}>
+                        <label htmlFor={`color${index}`}>
+                            Cor
+                            <input
+                                className="w-full px-1"
+                                type="text"
+                                id={`color${index}`}
+                                name={`option-${index}-color`}
+                                value={option.color}
+                                onChange={(e) => handleOptionChange(index, e.target.value, "color")}
+                            />
+                        </label>
+                        <label htmlFor={`price${index}`}>
+                            Preço
+                            <input
+                                className="w-full px-1"
+                                type="number"
+                                id={`price${index}`}
+                                name={`option-${index}-price`}
+                                value={option.price}
+                                onChange={(e) => handleOptionChange(index, +e.target.value, "price")}
+                            />
+                        </label>
                         <button 
                             className="mb-3 mt-4 rounded-md border px-2 py-1 hover:bg-red-600" type="button"
                             onClick={() => {handleRemoveOption(index);}}
@@ -104,9 +116,9 @@ export default function EditCellphoneForm({ cellphone }: { cellphone: Cellphone 
                         </button>
                     </div>
                 )}
-            </label>
-            <div className="mx-3 flex w-full flex-wrap gap-3 rounded-md border p-3">
-                <p className="underline">Add new option:</p>
+            </section>
+            <section className="flex w-full flex-wrap gap-3 rounded-md border p-3">
+                <p className="underline">Adicionar opção:</p>
                 <label className="w-full" htmlFor="newPrice">
                     Price:
                     <input
@@ -118,9 +130,10 @@ export default function EditCellphoneForm({ cellphone }: { cellphone: Cellphone 
                         placeholder="Digite a cor"
                         className="w-full px-1" type="text" id="newColor" value={newOption.color} onChange ={(e) => setNewOption({ ...newOption, color: e.target.value })}/>
                 </label>
-                <button className="my-2 w-full rounded-md border py-2 hover:bg-yellow-400 hover:text-black" type="button" onClick={handleAddNewOption}>Add</button>
-            </div>
-            <button className="gradient-border mx-3 w-full rounded-md border py-2 hover:bg-white/20" type="submit">Salvar</button>
+                <button disabled={newOption.color && newOption.price > 0 ? false : true} className="my-2 w-full rounded-md border py-2 hover:bg-yellow-400 hover:text-black disabled:opacity-20" type="button" onClick={handleAddNewOption}>Add</button>
+            </section>
+            <button className="gradient-border my-5 w-full rounded-md border py-2 hover:bg-white/20" type="submit">Salvar</button>
+            {message && <p>{message}</p>}
         </form>
     );
 }
