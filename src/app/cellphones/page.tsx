@@ -98,8 +98,8 @@ export default function ShowCellphones(){
                     >
                         <option value="">Todas as cores</option>
                         {storeCellphones.map((cellphone) =>
-                            Array.from(new Set(cellphone.options.map(opt => opt.color))).map((color, colorIndex) =>
-                                <option key={colorIndex} value={color}>{color}</option>
+                            Array.from(new Set(cellphone.options.map(opt => opt.color))).map((color) =>
+                                <option key={`${cellphone.id}${color}`} value={color}>{color}</option>
                             )
                         )}
                     </select>
@@ -109,7 +109,7 @@ export default function ShowCellphones(){
                     >
                         <option value="">Todas as marcas</option>
                         {storeCellphones.map((cellphone) =>
-                            <option key={cellphone.brand} value={cellphone.brand}>{cellphone.brand}</option>
+                            <option key={cellphone.id} value={cellphone.brand}>{cellphone.brand}</option>
                         )}
                     </select>
                 </section>
