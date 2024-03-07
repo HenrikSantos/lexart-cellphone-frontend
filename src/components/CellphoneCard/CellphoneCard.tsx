@@ -5,7 +5,12 @@ import { deleteCellphone } from "@/api/deleteCellphone";
 import React from "react";
 import { Cellphone } from "@/global/store";
 
-export default function CellphoneCard({ cellphone, handleGetCellphones }: {cellphone: Cellphone, handleGetCellphones: () => void} ) {
+interface ICellphoneCardProps {
+    cellphone: Cellphone;
+    setCellphones: React.Dispatch<React.SetStateAction<Cellphone[]>>;
+}
+
+export default function CellphoneCard({ cellphone, setCellphones }: ICellphoneCardProps) {
     return (
         <div className="relative rounded-md border-2 p-2 pb-10" key={cellphone.id}>
             <h2 className="text-2xl font-bold underline">{cellphone.name}</h2>
@@ -32,7 +37,7 @@ export default function CellphoneCard({ cellphone, handleGetCellphones }: {cellp
 
                 <button className="rounded-sm border px-2 hover:bg-red-500" type="button" onClick={() => {
                     deleteCellphone(cellphone.id);
-                    handleGetCellphones();
+                    setCellphones(prev => prev.filter(el => el.id !== cellphone.id));
                 }}>
                     Deletar
                 </button>

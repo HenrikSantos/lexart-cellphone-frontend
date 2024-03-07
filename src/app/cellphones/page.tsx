@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
-import { useStore } from "zustand";
-import { useRouter } from "next/navigation";
-import useCellphoneStore, { Cellphone } from "@/global/store";
 import getCellphones from "@/api/getCellphones";
 import getToken from "@/utils/getToken";
 import CellphoneCard from "@/components/CellphoneCard/CellphoneCard";
 import sortItems from "@/utils/sortItems";
+import useCellphoneStore, { Cellphone } from "@/global/store";
+import React, { useEffect, useState } from "react";
+import { useStore } from "zustand";
+import { useRouter } from "next/navigation";
 
 interface FilterOptions {
     query: string;
@@ -19,82 +19,69 @@ export default function ShowCellphones(){
     const router = useRouter();
     const { storeCellphones, setStoreCellphones } = useStore(useCellphoneStore);
     const [cellphones, setCellphones] = useState<Cellphone[]>([]);
-    const [filterOptions, setFilterOptions] = useState<FilterOptions>({
-        query: "",
-        selectedColor: "",
-        selectedBrand: "",
-    });
-
+    const [filterOptions, setFilterOptions] = useState<FilterOptions>({ query: "", selectedColor: "", selectedBrand: "" });
     const [colors, setColors] = useState<string[]>([]);
     const [brands, setBrands] = useState<string[]>([]);
 
-    const handleGetCellphones = useCallback(async() => {
-        const token = getToken();
-        if (!token) {
-            router.push("/");
+    useEffect(() => {
+        const fetchData = async() => {
+            const token = getToken();
+            if (!token) {
+                router.push("/");
 
-            return;
-        }
-        const data = await getCellphones(token);
-
-        if (!data) return;
-
-        setStoreCellphones(data);
-        setCellphones(data);
+                return;
+            }
+    
+            const data = await getCellphones(token);
+    
+            if (!data) return;
+    
+            setStoreCellphones(data);
+            setCellphones(data);
+        };
+    
+        fetchData();
     }, [router, setStoreCellphones]);
-
-    useEffect(() => {
-        handleGetCellphones();
-    }, [handleGetCellphones]);
     
-    const filterCellphones = useCallback(() => {
-        let filtered = storeCellphones.filter(cellphone =>
-            cellphone.name.toLowerCase().includes(filterOptions.query.toLowerCase())
-        );
-        if (filterOptions.selectedColor) {
-            filtered = filtered.filter(cellphone =>
-                cellphone.options.some(option => option.color === filterOptions.selectedColor)
+    useEffect(() => {
+        const applyFilter = () => {
+            let filtered = storeCellphones.filter(cellphone =>
+                cellphone.name.toLowerCase().includes(filterOptions.query.toLowerCase())
             );
-        }
-        if (filterOptions.selectedBrand) {
-            filtered = filtered.filter(cellphone =>
-                cellphone.brand === filterOptions.selectedBrand
-            );
-        }
-        setCellphones(filtered);
+            if (filterOptions.selectedColor) {
+                filtered = filtered.filter(cellphone =>
+                    cellphone.options.some(option => option.color === filterOptions.selectedColor)
+                );
+            }
+            if (filterOptions.selectedBrand) {
+                filtered = filtered.filter(cellphone =>
+                    cellphone.brand === filterOptions.selectedBrand
+                );
+            }
+            setCellphones(filtered);
+        };
+    
+        applyFilter();
     }, [filterOptions, storeCellphones]);
-    
-    useEffect(() => {
-        filterCellphones();
-    }, [filterOptions, storeCellphones, filterCellphones]);
-
-    const handleSortChange = (type: string) => {
-        setCellphones(sortItems([...cellphones], type));
-    };
 
     useEffect(() => {
         const uniqueColors = new Set<string>();
+        const uniqueBrands = new Set<string>();
     
         storeCellphones.forEach(cellphone => {
             cellphone.options.forEach(option => {
                 uniqueColors.add(option.color);
             });
-        });
     
-        const uniqueColorsArray = Array.from(uniqueColors).sort();
-    
-        setColors(uniqueColorsArray);
-
-        const uniqueBrands = new Set<string>();
-    
-        storeCellphones.forEach(cellphone => {
             uniqueBrands.add(cellphone.brand);
         });
     
+        const uniqueColorsArray = Array.from(uniqueColors).sort();
         const uniqueBrandsArray = Array.from(uniqueBrands).sort();
     
+        setColors(uniqueColorsArray);
         setBrands(uniqueBrandsArray);
-
+    
     }, [storeCellphones]);
     
     if (!cellphones) {
@@ -118,10 +105,30 @@ export default function ShowCellphones(){
                 </div>
 
                 <div className="my-3 grid grid-cols-4 gap-2 text-sm">
-                    <button className="rounded-md border p-1 hover:bg-white/10" onClick={() => handleSortChange("name-asc")}>Nome (A-Z)</button>
-                    <button className="rounded-md border p-1 hover:bg-white/10" onClick={() => handleSortChange("name-desc")}>Nome (Z-A)</button>
-                    <button className="rounded-md border p-1 hover:bg-white/10" onClick={() => handleSortChange("price-asc")}>Preço Crescente</button>
-                    <button className="rounded-md border p-1 hover:bg-white/10" onClick={() => handleSortChange("price-desc")}>Preço Decrescente</button>
+                    <button 
+                        className="rounded-md border p-1 hover:bg-white/10" 
+                        onClick={() => setCellphones(sortItems([...cellphones], "name-asc"))}
+                    >
+                        Nome (A-Z)
+                    </button>
+                    <button 
+                        className="rounded-md border p-1 hover:bg-white/10" 
+                        onClick={() => setCellphones(sortItems([...cellphones], "name-desc"))}
+                    >
+                        Nome (Z-A)
+                    </button>
+                    <button 
+                        className="rounded-md border p-1 hover:bg-white/10" 
+                        onClick={() => setCellphones(sortItems([...cellphones], "price-asc"))}
+                    >
+                        Preço Crescente
+                    </button>
+                    <button 
+                        className="rounded-md border p-1 hover:bg-white/10" 
+                        onClick={() => setCellphones(sortItems([...cellphones], "price-desc"))}
+                    >
+                        Preço Decrescente
+                    </button>
                 </div>
 
                 <section className="flex gap-2">
@@ -149,7 +156,7 @@ export default function ShowCellphones(){
             
             <section className="justify-between gap-3 space-y-3 md:grid md:w-7/12 md:grid-cols-3 md:space-y-0">
                 {cellphones.map((cellphone) =>
-                    <CellphoneCard key={cellphone.id} cellphone={cellphone} handleGetCellphones={handleGetCellphones} />
+                    <CellphoneCard key={cellphone.id} cellphone={cellphone} setCellphones={setCellphones} />
                 )}
             </section>
         </main>
