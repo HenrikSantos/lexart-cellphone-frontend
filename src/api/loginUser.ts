@@ -18,6 +18,6 @@ export default async function loginUser(email: string, password: string) {
 
         return response.data;
     } catch (error) {
-        window.alert("Erro no registro");
+        window.alert("Erro no login");
     }
 }
