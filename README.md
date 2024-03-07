@@ -28,6 +28,16 @@
 
 O aplicativo frontend está implantado na Vercel em [https://lexart-cellphone-frontend.vercel.app/](https://lexart-cellphone-frontend.vercel.app/).
 
+### Usuario de ex: 
+- Email: 
+```
+    admin@admin.com
+``` 
+- Senha: 
+```
+    admin
+```
+
 ## Repositórios
 
 - Frontend: [https://github.com/HenrikSantos/lexart-cellphone-frontend](https://github.com/HenrikSantos/lexart-cellphone-frontend)
