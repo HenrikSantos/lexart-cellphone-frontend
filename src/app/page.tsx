@@ -24,11 +24,7 @@ export default function Login() {
 
         const response = await loginUser(email, password);
         
-        if (!response) {
-            window.alert("Erro ao logar, verifique o status do servidor");
-
-            return;
-        }
+        if (!response) return;
 
         if ("token" in response) {
             localStorage.setItem("lexartCellphoneLogin", response.token);
