@@ -16,7 +16,7 @@ export default function Header() {
     };
   
     return (
-        <header className="mx-auto flex w-full justify-center py-10 font-bold md:w-8/12 md:justify-between">
+        <header className="mx-auto flex w-full justify-center px-4 py-10 font-bold md:w-8/12 md:justify-between md:px-0">
             <Image className="hidden md:block" src={lexWhite} alt="Lexart logo" width={200} height={200}/>
             <nav className="flex items-center justify-between space-x-10">
                 <Link className="border-b-2 border-black py-3 hover:border-blue-400" href="/cellphones">
@@ -28,7 +28,7 @@ export default function Header() {
                 </Link>
 
                 <button 
-                    className="my-gradient-border border px-6 py-2 hover:bg-white/20" 
+                    className="gradient-border border px-6 py-2 hover:bg-white/20" 
                     onClick={handleLogout}
                 >
                     Logout
