@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Frontend Desafio Técnico Fullstack Lexart - Sistema de gerenciamento de Celulares
 
-## Getting Started
+## Funcionalidades
 
-First, run the development server:
+- **Login**: Os usuários podem fazer login na aplicação para acessar suas contas.
+- **Registrar**: Novos usuários podem se registrar para uma conta.
+- **Visualizar Celulares**: Os usuários podem visualizar os produtos de celular disponíveis.
+- **Editar Celular**: Os usuários podem editar celulares existentes.
+- **Criar Celular**: Os usuários podem criar novos produtos de celular.
+- **Filtrar Celulares**: Os usuários podem filtrar com diversos tipos de filtros.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Rotas
+
+- `/`: Login page.
+- `/register`: Registration page.
+- `/cellphones`: Page to view all available cellphone products.
+- `/cellphones/:id/edit`: Page to edit a specific cellphone product.
+- `/cellphones/create`: Page to create a new cellphone product.
+
+## Tecnologias Utilizadas
+
+- **React**: Biblioteca frontend para construir interfaces de usuário.
+- **Next.js**: Framework React para renderização do lado do servidor e roteamento.
+- **Zustand**: Biblioteca de gerenciamento de estado para React.
+- **TypeScript**: Superset tipado do JavaScript para melhorar a experiência do desenvolvedor.
+
+## Implantação
+
+O aplicativo frontend está implantado na Vercel em [https://lexart-cellphone-frontend.vercel.app/](https://lexart-cellphone-frontend.vercel.app/).
+
+## Repositórios
+
+- Frontend: [https://github.com/HenrikSantos/lexart-cellphone-frontend](https://github.com/HenrikSantos/lexart-cellphone-frontend)
+- Backend: [https://github.com/HenrikSantos/lexart-cellphone-backend](https://github.com/HenrikSantos/lexart-cellphone-backend)
+
+## Como Começar
+
+Para começar com o ambiente de desenvolvimento, siga estes passos:
+
+1. Clone o repositório frontend:
+
+```
+git clone https://github.com/HenrikSantos/lexart-cellphone-frontend.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Instale as dependências:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+cd lexart-cellphone-frontend
+npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+3. Inicie o servidor de desenvolvimento:
 
-## Learn More
+```
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+4. Visite [http://localhost:3000](http://localhost:3000) em seu navegador para visualizar a aplicação.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Licença
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Este projeto está licenciado sob a Licença MIT - consulte o arquivo [LICENSE](LICENSE) para obter mais detalhes.
