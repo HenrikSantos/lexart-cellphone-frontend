@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useCallback, useEffect, useState } from "react";
 import { useStore } from "zustand";
 import { useRouter } from "next/navigation";
@@ -8,13 +9,21 @@ import getToken from "@/utils/getToken";
 import CellphoneCard from "@/components/CellphoneCard/CellphoneCard";
 import sortItems from "@/utils/sortItems";
 
-export default function ShowCellphones() {
+interface FilterOptions {
+    query: string;
+    selectedColor: string | undefined;
+    selectedBrand: string | undefined;
+}
+
+export default function ShowCellphones(){
     const router = useRouter();
     const { storeCellphones, setStoreCellphones } = useStore(useCellphoneStore);
     const [cellphones, setCellphones] = useState<Cellphone[]>([]);
-    const [query, setQuery] = useState("");
-    const [selectedColor, setSelectedColor] = useState<string | undefined>(undefined);
-    const [selectedBrand, setSelectedBrand] = useState<string | undefined>(undefined);
+    const [filterOptions, setFilterOptions] = useState<FilterOptions>({
+        query: "",
+        selectedColor: undefined,
+        selectedBrand: undefined,
+    });
 
     const handleGetCellphones = useCallback(async() => {
         const token = getToken();
@@ -34,31 +43,31 @@ export default function ShowCellphones() {
     
     const filterCellphones = useCallback(() => {
         let filtered = storeCellphones.filter(cellphone =>
-            cellphone.name.toLowerCase().includes(query.toLowerCase())
+            cellphone.name.toLowerCase().includes(filterOptions.query.toLowerCase())
         );
-        if (selectedColor) {
+        if (filterOptions.selectedColor) {
             filtered = filtered.filter(cellphone =>
-                cellphone.options.some(option => option.color === selectedColor)
+                cellphone.options.some(option => option.color === filterOptions.selectedColor)
             );
         }
-        if (selectedBrand) {
+        if (filterOptions.selectedBrand) {
             filtered = filtered.filter(cellphone =>
-                cellphone.brand === selectedBrand
+                cellphone.brand === filterOptions.selectedBrand
             );
         }
         setCellphones(filtered);
-    }, [query, selectedColor, selectedBrand, storeCellphones]);
-
+    }, [filterOptions, storeCellphones]);
+    
     useEffect(() => {
         filterCellphones();
-    }, [query, selectedColor, selectedBrand, storeCellphones, filterCellphones]);
+    }, [filterOptions, storeCellphones, filterCellphones]);
 
     const handleSortChange = (type: string) => {
-        setCellphones(sortItems(cellphones, type));
+        setCellphones(sortItems([...cellphones], type));
     };
 
-    if (cellphones.length === 0) {
-        return <h1>Loading...</h1>;
+    if (!cellphones) {
+        return <h1 className="text-center">Loading...</h1>;
     }
 
     return (
@@ -72,8 +81,8 @@ export default function ShowCellphones() {
                         type="text"
                         name="query"
                         id="query"
-                        value={query}
-                        onChange={(e) => setQuery(e.target.value)}
+                        value={filterOptions.query}
+                        onChange={(e) => setFilterOptions({ ...filterOptions, query: e.target.value })}
                     />
                 </div>
                 <div className="my-3 grid grid-cols-4 gap-2 text-sm">
@@ -84,8 +93,8 @@ export default function ShowCellphones() {
                 </div>
                 <section className="flex gap-2">
                     <select
-                        value={selectedColor || ""}
-                        onChange={(e) => setSelectedColor(e.target.value || undefined)}
+                        value={filterOptions.selectedColor || ""}
+                        onChange={(e) => setFilterOptions({ ...filterOptions, selectedColor: e.target.value || undefined })}
                     >
                         <option value="">Todas as cores</option>
                         {storeCellphones.map((cellphone) =>
@@ -95,8 +104,8 @@ export default function ShowCellphones() {
                         )}
                     </select>
                     <select
-                        value={selectedBrand || ""}
-                        onChange={(e) => setSelectedBrand(e.target.value || undefined)}
+                        value={filterOptions.selectedBrand || ""}
+                        onChange={(e) => setFilterOptions({ ...filterOptions, selectedBrand: e.target.value || undefined })}
                     >
                         <option value="">Todas as marcas</option>
                         {storeCellphones.map((cellphone) =>
