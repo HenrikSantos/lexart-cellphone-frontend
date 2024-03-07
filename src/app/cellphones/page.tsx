@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import useCellphoneStore, { Cellphone } from "@/global/store";
 import getCellphones from "@/api/getCellphones";
 import getToken from "@/utils/getToken";
-import DeleteProductButtom from "@/components/DeleteCellphoneButtom/DeleteProductButtom";
+import { deleteCellphone } from "@/api/deleteCellphone";
 
 export default function Cellphones() {
     const router = useRouter();
@@ -89,7 +89,11 @@ export default function Cellphones() {
                         <Link href={`/cellphones/${cellphone.id}/edit`}>
                             <button className="rounded-sm border-2 px-2 hover:bg-slate-50">Editar</button>
                         </Link>
-                        <DeleteProductButtom id={cellphone.id} />
+                        <button className="rounded-sm border-2 px-2 hover:bg-slate-50" type="button" onClick={() => {
+                            deleteCellphone(cellphone.id);
+                        }}>
+            Deletar
+                        </button>
                     </div>
                 )}
             </div>

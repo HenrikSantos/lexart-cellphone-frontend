@@ -3,6 +3,7 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import loginUser from "@/api/loginUser";
+import Link from "next/link";
 
 export default function Login() {
     const [email, setEmail] = useState<string>("");
@@ -53,6 +54,7 @@ export default function Login() {
                 <button type="submit">Entrar</button>
             </form>
             {message && <p>{message}</p>}
+            <Link href={"/register"}>Criar conta</Link>
         </div>
     );
 }
