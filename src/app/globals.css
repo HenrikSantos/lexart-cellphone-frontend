@@ -31,6 +31,6 @@ textarea:focus {
     border-color: #fff;
 }
 
-.my-gradient-border  {
+.gradient-border  {
     border-image: linear-gradient(to right, darkblue, darkorchid) 1;
 }
